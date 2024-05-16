@@ -34,7 +34,7 @@ jobs:
 
     steps:
     - name: Download greeting artifact
-      uses: actions/download-artifact@v4.3.3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: greeting-artifact
 
@@ -51,23 +51,30 @@ jobs:
 
     steps:
     - name: Download greeting artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: greeting-artifact
 
     - name: Print greeting from artifact
       run: cat greeting.txt
 
+
   cache-example:
     runs-on: ubuntu-latest
     steps:
-    - name: Cache node modules
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Cache pip packages
       uses: actions/cache@v4.0.2
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ runner.os }}-pip-
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        python -m venv venv
+        . venv/bin/activate
+        pip install -r requirements.txt
