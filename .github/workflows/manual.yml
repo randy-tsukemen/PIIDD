@@ -31,6 +31,7 @@ jobs:
     - name: Send greeting
       run: echo "Hello ${{ inputs.name }}"
   greet2:
+    name: Greet in dev environment with input ${{ inputs.name }}
     needs: [greet]
     runs-on: ubuntu-latest
     environment:
@@ -43,6 +44,7 @@ jobs:
     - name: Send greeting
       run: echo "Hello ${{ inputs.name }}"
   greet3:
+    name: Greet in staging environment with input ${{ inputs.name }}
     needs: [greet]
     runs-on: ubuntu-latest
     environment:
