@@ -1,13 +1,10 @@
-# Build stage
-FROM node:16-alpine AS builder
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM golang:1.21.1-alpine as base-build
 
-# Final stage
-FROM node:16-alpine
-WORKDIR /app
-COPY --from=builder /app/build /app
-CMD ["node", "server.js"]
+WORKDIR /build
+RUN go env -w GOMODCACHE=/root/.cache/go-build
+
+COPY go.mod go.sum ./
+RUN --mount=type=cache,target=/root/.cache/go-build go mod download
+
+COPY ./src ./
+RUN --mount=type=cache,target=/root/.cache/go-build go build -o /bin/app /build/src
