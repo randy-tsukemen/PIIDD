@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.5.2",
+    "@clerk/nextjs": "^5.7.5",
     "@dicebear/collection": "^9.0.1",
     "@dicebear/core": "^9.0.1",
     "@radix-ui/react-slot": "^1.1.0",
